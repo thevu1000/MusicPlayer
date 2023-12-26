@@ -84,11 +84,12 @@ const app = {
     } this.loadCurrentSong();
   },
   prevSong: function() {
-    this.currentIndex--;
-    if(this.currentIndex == 0) {
-      this.currentIndex = this.songs.length -1;
-    } this.loadCurrentSong();
-  },
+  this.currentIndex--;
+  if (this.currentIndex < 0) {
+    this.currentIndex = this.songs.length - 1;
+  }
+  this.loadCurrentSong();
+},
   handleEvent: function () {
     const _this = this;
     const cdWidth = cd.offsetWidth;
