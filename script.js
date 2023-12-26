@@ -85,7 +85,7 @@ const app = {
   },
   prevSong: function() {
   this.currentIndex--;
-  if (this.currentIndex < 0) {
+  if (this.currentIndex <= 0) {
     this.currentIndex = this.songs.length - 1;
   }
   this.loadCurrentSong();
