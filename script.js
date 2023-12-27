@@ -9,12 +9,18 @@ const audio = $('#audio')
 const playBtn = $('.btn-toggle-play');
 const player = $('.player');
 const progressRange = $('#progress');
-const nextBtn = $('.btn-next')
-const prevBtn = $('.btn-prev')
+const nextBtn = $('.btn-next');
+const prevBtn = $('.btn-prev');
+const repeatBtn = $('.btn-repeat');
+const randomBtn = $('.btn-random');
+const playlist = $('.playlist');
 
 const app = {
   currentIndex: 0,
   isPlaying: false,
+  isRepeat: false,
+  isRandom: false,
+  randomIndexes: [],
   songs: [
     {
       name: "I Wish",
@@ -30,33 +36,33 @@ const app = {
         "https://play-lh.googleusercontent.com/OI51wmewoxY-Ygp4RDOFS3nZH866g3sh56c1qEGWPmIZ0vFyAs_1FnWhckPV8rj6DP4=w240-h480-rw",
     },
     {
-      name: "Naachne Ka Shaunq",
-      singer: "Raftaar x Brobha V",
+      name: "Buồn Hay Vui",
+      singer: "VSOUL x MCK x Obito x Ronboogz x Boyzed",
       path:
-        "https://mp3.filmysongs.in/download.php?id=Naachne Ka Shaunq Raftaar Ft Brodha V Mp3 Hindi Song Filmysongs.co.mp3",
-      image: "https://i.ytimg.com/vi/QvswgfLDuPg/maxresdefault.jpg"
+        "./Song/BUỒN HAY VUI.mp3",
+      image: "https://i1.sndcdn.com/artworks-N12oCUcbMlkSzA6M-VO3OdQ-t500x500.jpg"
     },
     {
-      name: "Mantoiyat",
-      singer: "Raftaar x Nawazuddin Siddiqui",
-      path: "https://mp3.vlcmusic.com/download.php?track_id=14448&format=320",
+      name: "Một phần hai ½",
+      singer: "Anh Tú x OgeNus",
+      path: "./Song/một phần hai ½.mp3",
       image:
-        "https://a10.gaanacdn.com/images/song/39/24225939/crop_480x480_1536749130.jpg"
+        "https://i.scdn.co/image/ab67616d00001e02f11ac8ea745b88173b716f73"
     },
     {
-      name: "Aage Chal",
-      singer: "Raftaar",
-      path: "https://mp3.vlcmusic.com/download.php?track_id=25791&format=320",
+      name: "Đậm Sâu Chẳng Được Gì",
+      singer: "Hoài Lâm",
+      path: "./Song/ĐẬM SÂU CHẲNG ĐƯỢC GÌ.mp3",
       image:
-        "https://a10.gaanacdn.com/images/albums/72/3019572/crop_480x480_3019572.jpg"
+        "https://i.ytimg.com/vi/sE6w-xgbwuw/maxresdefault.jpg"
     },
     {
-      name: "Damn",
-      singer: "Raftaar x kr$na",
+      name: "CHỊU CÁCH MÌNH NÓI THUA",
+      singer: "RHYDER ft. BAN x COOLKID",
       path:
-        "https://mp3.filmisongs.com/go.php?id=Damn%20Song%20Raftaar%20Ft%20KrSNa.mp3",
+        "./Song/CHỊU CÁCH MÌNH NÓI THUA.mp3",
       image:
-        "https://filmisongs.xyz/wp-content/uploads/2020/07/Damn-Song-Raftaar-KrNa.jpg"
+        "https://i.scdn.co/image/ab67616d00001e023687e8b4ade89380cb3d27c6"
     },
     {
       name: "Feeling You",
@@ -78,18 +84,39 @@ const app = {
     audio.src = this.currentSong.path;
   },
   nextSong: function() {
+    // Xóa lớp 'active' ở bài hát cũ
+    const currentSongNode = document.querySelector(`.song[data-index="${this.currentIndex}"]`);
+    currentSongNode.classList.remove('active');
+  
     this.currentIndex++;
-    console.log(this.currentIndex)
     if(this.currentIndex >= this.songs.length) {
       this.currentIndex = 0;
-    } this.loadCurrentSong();
+    }
+    
+    // Thêm lớp 'active' cho bài hát mới
+    const newSongNode = document.querySelector(`.song[data-index="${this.currentIndex}"]`);
+    newSongNode.classList.add('active');
+  
+    this.loadCurrentSong();
+  
+    // Gọi phương thức render để cập nhật giao diện
+    this.render();
   },
   prevSong: function() {
+    // Xóa lớp 'active' ở bài hát cũ
+    const currentSongNode = document.querySelector(`.song[data-index="${this.currentIndex}"]`);
+    currentSongNode.classList.remove('active');
     this.currentIndex--;
-    console.log(this.currentIndex)
     if(this.currentIndex < 0) {
       this.currentIndex = this.songs.length - 1;
-    } this.loadCurrentSong();
+    }
+    // Thêm lớp 'active' cho bài hát mới
+    const newSongNode = document.querySelector(`.song[data-index="${this.currentIndex}"]`);
+    newSongNode.classList.add('active');
+
+    this.loadCurrentSong();
+
+    this.render();
   },
   handleEvent: function () {
     const _this = this;
@@ -129,13 +156,21 @@ const app = {
 
     //Khi bấm next
     nextBtn.onclick = function() {
-      _this.nextSong();
+      if(!_this.isRandom) {
+        _this.nextSong();
+      } else {
+        _this.playRandomSong();
+      }
       audio.play();
     }
 
     // Khi bấm prev
     prevBtn.onclick = function() {
+      if(!_this.isRandom) {
       _this.prevSong();
+      } else {
+      _this.playRandomSong();
+      }
       audio.play();
     }
 
@@ -153,17 +188,63 @@ const app = {
       audio.currentTime = seekTime;
     };
 
+    // Bật/Tắt loop
+    repeatBtn.onclick = function() {
+      _this.isRepeat = !_this.isRepeat;
+      repeatBtn.classList.toggle('active', _this.isRepeat);
+    }
+
+    // Bật/Tắt Random
+    randomBtn.onclick = function() {
+      _this.isRandom = !_this.isRandom;
+      randomBtn.classList.toggle('active', _this.isRandom);
+    }
+
+    // Xử lý khi bật loop
+    audio.onended = function () {
+      if (_this.isRepeat) {
+        audio.play();
+      } else {
+        nextBtn.click();
+      }
+    };
+
     // Xử lý CD xoay, dừng
     const cdThumbAnimate = cdThumb.animate([{ transform: "rotate(360deg)" }], {
       duration: 10000, // 10 giây
       iterations: Infinity,
     })
     cdThumbAnimate.pause();
+
+    
+    // Lắng nghe hành vi click vào playlist
+    // Listen to playlist clicks
+    playlist.onclick = function (e) {
+      const songNode = e.target.closest(".song:not(.active)");
+
+      if (songNode || e.target.closest(".option")) {
+        // Xử lý khi click vào song
+        // Handle when clicking on the song
+        if (songNode) {
+          _this.currentIndex = Number(songNode.dataset.index);
+          _this.loadCurrentSong();
+          _this.render();
+          audio.play();
+        }
+
+        // Xử lý khi click vào song option
+        // Handle when clicking on the song option
+        if (e.target.closest(".option")) {
+        }
+      }
+    };
   },
   // Render Song
   render: function () {
     const htmls = this.songs.map((song, index) => {
-      return `<div class="song">
+      return `<div class="song ${
+        index === this.currentIndex ? "active" : ""
+      }" data-index = ${index}> 
             <div class="thumb" style="background-image: url('${song.image}')"></div>
             <div class="body">
               <h3 class="title">${song.name}</h3>
@@ -176,6 +257,30 @@ const app = {
     })
     playList.innerHTML = htmls.join("");
   },
+  playRandomSong: function() {
+    if (this.isRandom) {
+      if (this.songs.length === 0) {
+        console.error("No songs available.");
+        return;
+      }
+    
+      // Nếu mảng chỉ số trống, tạo lại với tất cả các chỉ số
+      if (this.randomIndexes.length === 0) {
+        this.randomIndexes = Array.from({ length: this.songs.length }, (_, index) => index);
+      }
+    
+      // Random một chỉ số từ mảng chỉ số và lấy giá trị tương ứng
+      const randomIndex = this.randomIndexes.splice(Math.floor(Math.random() * this.randomIndexes.length), 1)[0];
+      this.currentIndex = randomIndex;
+    
+      // Nếu mảng chỉ số đã random hết, reset nó để bắt đầu lại
+      if (this.randomIndexes.length === 0) {
+        this.randomIndexes = Array.from({ length: this.songs.length }, (_, index) => index);
+      }
+    }
+  
+    this.loadCurrentSong();
+  },
   // Start ứng dụng
   start: function () {
     // Render danh sách bài hát
@@ -186,6 +291,8 @@ const app = {
     this.defineProperties();
     // Load bài hát hiện tại
     this.loadCurrentSong();
+    // Random bài hát
+    this.playRandomSong();
   }
 }
 
