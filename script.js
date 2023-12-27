@@ -79,14 +79,16 @@ const app = {
   },
   nextSong: function() {
     this.currentIndex++;
+    console.log(this.currentIndex)
     if(this.currentIndex >= this.songs.length) {
       this.currentIndex = 0;
     } this.loadCurrentSong();
   },
   prevSong: function() {
     this.currentIndex--;
-    if(this.currentIndex = 0) {
-      this.currentIndex = this.songs.length -1;
+    console.log(this.currentIndex)
+    if(this.currentIndex < 0) {
+      this.currentIndex = this.songs.length - 1;
     } this.loadCurrentSong();
   },
   handleEvent: function () {
@@ -146,7 +148,7 @@ const app = {
     }
 
     // Xử lý khi người dùng thay đổi giá trị của thanh thời gian
-    progressRange.onchange = function () {
+    progressRange.oninput = function () {
       const seekTime = (audio.duration / 100) * progressRange.value;
       audio.currentTime = seekTime;
     };
