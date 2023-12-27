@@ -258,29 +258,30 @@ const app = {
     playList.innerHTML = htmls.join("");
   },
   playRandomSong: function() {
-    if (this.isRandom) {
-      if (this.songs.length === 0) {
-        console.error("No songs available.");
-        return;
-      }
-    
-      // Nếu mảng chỉ số trống, tạo lại với tất cả các chỉ số
-      if (this.randomIndexes.length === 0) {
-        this.randomIndexes = Array.from({ length: this.songs.length }, (_, index) => index);
-      }
-    
-      // Random một chỉ số từ mảng chỉ số và lấy giá trị tương ứng
-      const randomIndex = this.randomIndexes.splice(Math.floor(Math.random() * this.randomIndexes.length), 1)[0];
-      this.currentIndex = randomIndex;
-    
-      // Nếu mảng chỉ số đã random hết, reset nó để bắt đầu lại
-      if (this.randomIndexes.length === 0) {
-        this.randomIndexes = Array.from({ length: this.songs.length }, (_, index) => index);
-      }
+    if (this.songs.length === 0) {
+      console.error("No songs available.");
+      return;
+    }
+  
+    // Nếu mảng chỉ số trống, tạo lại với tất cả các chỉ số
+    if (this.randomIndexes.length === 0) {
+      this.randomIndexes = Array.from({ length: this.songs.length }, (_, index) => index);
+    }
+  
+    // Random một chỉ số từ mảng chỉ số và lấy giá trị tương ứng
+    const randomIndex = this.randomIndexes.splice(Math.floor(Math.random() * this.randomIndexes.length), 1)[0];
+    this.currentIndex = randomIndex;
+  
+    // Nếu mảng chỉ số đã random hết, reset nó để bắt đầu lại
+    if (this.randomIndexes.length === 0) {
+      this.randomIndexes = Array.from({ length: this.songs.length }, (_, index) => index);
     }
   
     this.loadCurrentSong();
-  },
+  
+    // Gọi phương thức render để cập nhật giao diện
+    this.render();
+  },  
   // Start ứng dụng
   start: function () {
     // Render danh sách bài hát
