@@ -311,7 +311,9 @@ const app = {
     // Load bài hát hiện tại
     this.loadCurrentSong();
     // Random bài hát
-    this.playRandomSong();
+    if (this.isRandom) {
+      this.playRandomSong();
+    }
     this.loadConfig();
   }
 }
