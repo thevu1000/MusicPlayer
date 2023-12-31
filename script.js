@@ -14,6 +14,7 @@ const prevBtn = $('.btn-prev');
 const repeatBtn = $('.btn-repeat');
 const randomBtn = $('.btn-random');
 const playlist = $('.playlist');
+const PlAYER_STORAGE_KEY = "F8_PLAYER";
 
 const app = {
   currentIndex: 0,
@@ -21,6 +22,19 @@ const app = {
   isRepeat: false,
   isRandom: false,
   randomIndexes: [],
+  config: {},
+  setConfig: function (key, value) {
+    this.config[key] = value;
+    localStorage.setItem(PlAYER_STORAGE_KEY, JSON.stringify(this.config));
+  },
+  loadConfig: function () {
+    const savedConfig = JSON.parse(localStorage.getItem(PlAYER_STORAGE_KEY));
+    if (savedConfig) {
+      this.config = savedConfig;
+      this.isRandom = this.config.isRandom;
+      this.isRepeat = this.config.isRepeat;
+    }
+  },
   songs: [
     {
       name: "I Wish",
@@ -192,12 +206,14 @@ const app = {
     repeatBtn.onclick = function() {
       _this.isRepeat = !_this.isRepeat;
       repeatBtn.classList.toggle('active', _this.isRepeat);
+      _this.setConfig("isRepeat", _this.isRepeat);
     }
 
     // Bật/Tắt Random
     randomBtn.onclick = function() {
       _this.isRandom = !_this.isRandom;
       randomBtn.classList.toggle('active', _this.isRandom);
+      _this.setConfig("isRandom", _this.isRandom);
     }
 
     // Xử lý khi bật loop
@@ -294,6 +310,7 @@ const app = {
     this.loadCurrentSong();
     // Random bài hát
     this.playRandomSong();
+    this.loadConfig();
   }
 }
 

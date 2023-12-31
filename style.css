@@ -132,7 +132,9 @@
     height: 6px;
     background-color: var(--primary-color);
     cursor: pointer;
+    animation: progress-animation 10s linear infinite;
   }
+  
   
   /* PLAYLIST */
   .playlist {
@@ -194,3 +196,13 @@
     font-size: 18px;
   }
   
+
+  @keyframes progress-animation {
+    0% {
+      transform: scaleX(0);
+    }
+  
+    100% {
+      transform: scaleX(1);
+    }
+  }
