@@ -33,6 +33,8 @@ const app = {
       this.config = savedConfig;
       this.isRandom = this.config.isRandom;
       this.isRepeat = this.config.isRepeat;
+      randomBtn.classList.toggle('active', this.isRandom);
+      repeatBtn.classList.toggle('active', this.isRepeat);
     }
   },
   songs: [
@@ -68,7 +70,7 @@ const app = {
       singer: "Hoài Lâm",
       path: "./Song/ĐẬM SÂU CHẲNG ĐƯỢC GÌ.mp3",
       image:
-        "https://i.ytimg.com/vi/sE6w-xgbwuw/maxresdefault.jpg"
+        "https://i.scdn.co/image/ab67616d00001e0263e4bbaa3b7a7a86c64fcf47"
     },
     {
       name: "CHỊU CÁCH MÌNH NÓI THUA",
@@ -79,11 +81,11 @@ const app = {
         "https://i.scdn.co/image/ab67616d00001e023687e8b4ade89380cb3d27c6"
     },
     {
-      name: "Feeling You",
-      singer: "Raftaar x Harjas",
-      path: "https://mp3.vlcmusic.com/download.php?track_id=27145&format=320",
+      name: "Lỡ Làng Duyên Em",
+      singer: "Thành Đạt",
+      path: "./Song/LoLangDuyenEm-ThanhDat-12751167.mp3",
       image:
-        "https://a10.gaanacdn.com/gn_img/albums/YoEWlabzXB/oEWlj5gYKz/size_xxl_1586752323.webp"
+        "https://i.scdn.co/image/ab67616d00001e02f5be56eef070318cb4f34e40"
     }],
   defineProperties: function () {
     Object.defineProperty(this, 'currentSong', {
