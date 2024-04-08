@@ -1,0 +1,33 @@
+:root {
+    --color-bg-main: #170f23;
+    --color-bg-sidebar: #231b2e;
+    --color-purple: #7200a1;
+    --text-secondary: hsla(0, 0%, 100%, 0.5);
+    --text-primary: #fff;
+    --navigation-text: #dadada;
+    --alpha-bg: hsla(0, 0%, 100%, 0.1);
+    --layout-bg: #170f23;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+}
+
+input:focus {
+    outline: none;
+}
+
+p {
+    /* margin: 0; */
+}

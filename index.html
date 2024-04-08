@@ -1,59 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css" >
-    <link rel="stylesheet" href="./fonts/fontawesome-free-6.4.2-web/css/all.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./base.css" />
+    <link
+      rel="stylesheet"
+      href="./fonts/fontawesome-free-6.4.2-web/css/all.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
     <title>Music player</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="player">
-        <!-- Dashboard -->
-        <div class="dashboard">
-          <!-- Header -->
-          <header>
-            <h4>Now playing:</h4>
-            <h2>String 57th & 9th</h2>
-          </header>
-      
-          <!-- CD -->
-          <div class="cd">
-            <div class="cd-thumb">
-            </div>
-          </div>
-      
-          <!-- Control -->
-          <div class="control">
-            <div class="btn btn-repeat">
-              <i class="fas fa-redo"></i>
-            </div>
-            <div class="btn btn-prev">
-              <i class="fas fa-step-backward"></i>
-            </div>
-            <div class="btn btn-toggle-play">
-              <i class="fas fa-pause icon-pause"></i>
-              <i class="fas fa-play icon-play"></i>
-            </div>
-            <div class="btn btn-next">
-              <i class="fas fa-step-forward"></i>
-            </div>
-            <div class="btn btn-random">
-              <i class="fas fa-random"></i>
-            </div>
-          </div>
-          
-          <input id="progress" class="progress" type="range" value="0" step="1" min="0" max="100">
-      
-          <audio id="audio" src=""></audio>
+      <div class="sidebar hide-on-mobile">
+        <div class="sidebar-logo">
+          <a href="#">
+            <img
+              src="https://phbao272.github.io/ZingMP3/assets/img/logo-dark.svg"
+              alt=""
+              class="logo-img hide-on-t-m"
+            />
+            <img
+              style="display: none"
+              src="https://phbao272.github.io/ZingMP3/assets/img/icon_zing_mp3_60.f6b51045.svg"
+              alt=""
+              class="logo-img-t-m"
+            />
+          </a>
         </div>
-      
-        <!-- Playlist -->
-        <div class="playlist">
+
+        <div class="navbar">
+          <div class="nav-item active">
+            <i class="nav-item-icon fas fa-music"></i>
+            <p class="nav-item-text hide-on-t-m">Cá Nhân</p>
+          </div>
+
+          <div class="nav-item">
+            <i class="nav-item-icon fas fa-map-marked-alt"></i>
+            <p class="nav-item-text hide-on-t-m">Khám Phá</p>
+          </div>
+
+          <div class="nav-item">
+            <i class="nav-item-icon fas fa-globe"></i>
+            <p class="nav-item-text hide-on-t-m">#zingchart</p>
+          </div>
+
+          <div class="nav-item">
+            <i class="nav-item-icon fas fa-podcast"></i>
+            <p class="nav-item-text hide-on-t-m">Radio &amp; Podcast</p>
+          </div>
+
+          <div class="nav-item">
+            <i class="nav-item-icon fa-solid fa-record-vinyl"></i>
+            <p class="nav-item-text hide-on-t-m">Theo Dõi</p>
+          </div>
+
+          <div class="line"></div>
+
+          <div class="nav-item">
+            <i class="nav-item-icon fas fa-headphones"></i>
+            <p class="nav-item-text hide-on-t-m">Nhạc Mới</p>
+          </div>
+
+          <div class="nav-item">
+            <i class="nav-item-icon fas fa-th-large"></i>
+            <p class="nav-item-text hide-on-t-m">Thể Loại</p>
+          </div>
+
+          <div class="nav-item">
+            <i class="nav-item-icon far fa-star"></i>
+            <p class="nav-item-text hide-on-t-m">Top 100</p>
+          </div>
+
+          <div class="nav-item">
+            <i class="nav-item-icon fa-brands fa-youtube"></i>
+            <p class="nav-item-text hide-on-t-m">MV</p>
+          </div>
+        </div>
+
+        <div class="line hide-on-t-m"></div>
+      </div>
+
+      <div class="main">
+        <div class="header">
+          <div class="header__nav">
+            <i class="nav__icon fa-solid fa-arrow-left"></i>
+            <i class="nav__icon fa-solid fa-arrow-right"></i>
+          </div>
+
+          <div class="header__search">
+            <div class="search__icon-contain">
+              <i class="search__icon fa-solid fa-magnifying-glass"></i>
+            </div>
+            <input
+              type="text"
+              class="search__input"
+              placeholder="Nhập tên bài hát, nghệ sĩ hoặc MV..."
+            />
+          </div>
+
+          <div class="header__user">
+            <img src="/" alt="/" class="user__avatar" />
+          </div>
+        </div>
+
+        <div class="main__player">
+          <div class="main__disc-side">
+            <h3 class="disc__side-title">Bài Hát</h3>
+            <img
+              src="https://photo-resize-zmp3.zmdcdn.me/w240_r1x1_jpeg/cover/f/2/a/5/f2a5734e1695d11b2534274aa2e64a88.jpg"
+              alt="/"
+            />
+            <div class="disc__title">Nói trước bước không qua</div>
+          </div>
+
+          <div class="main__track-side">
+            
+          </div>
         </div>
       </div>
+      <div class="control__contain">
+
+        <div class="control__player">
+          <div class="control">
+            <i class="control-icon btn-random fa-solid fa-shuffle" onclick=handleRandom()></i>
+            <i class="control-icon btn-prev fa-solid fa-backward"></i>
+            <i class="control-icon  fa-solid fa-play" onclick=handlePlay()></i>
+            <i class="control-icon isnone fa-solid fa-pause"onclick=handleStop()></i>
+            <i class="control-icon btn-next fa-solid fa-forward"></i>
+            <i class="control-icon btn-repeat fa-solid fa-rotate-right" onclick=handleLoop()></i>
+          </div>
+          <div class="progress_contain">
+            <label class="now-progress">0:00</label>
+            <input id="progress" value="0" type="range" min="0" max="100" step="0.1" />
+            <label class="total-time"></label>
+          </div>
+        </div>
+      </div>
+      <audio class="audio" src="/" style="display: none;"></audio>
+    </div>
+
     <script src="./script.js"></script>
-</body>
+  </body>
 </html>
